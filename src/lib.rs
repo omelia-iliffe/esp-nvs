@@ -9,6 +9,9 @@ mod raw;
 mod set;
 mod u24;
 
+#[cfg(feature = "serde")]
+pub mod serde;
+
 /// Maximum Key length is 15 bytes + 1 byte for the null terminator.
 const MAX_KEY_LENGTH: usize = 15;
 const MAX_KEY_NUL_TERMINATED_LENGTH: usize = MAX_KEY_LENGTH + 1;
