@@ -68,6 +68,10 @@ impl Key {
     pub const fn as_bytes(&self) -> &[u8; MAX_KEY_NUL_TERMINATED_LENGTH] {
         &self.0
     }
+
+    pub fn as_str(&self) -> &str {
+        str::from_utf8(&self.0[..MAX_KEY_LENGTH]).unwrap()
+    }
 }
 
 impl fmt::Debug for Key {
