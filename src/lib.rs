@@ -238,6 +238,25 @@ impl<T: Platform> Nvs<T> {
         }
     }
 
+    /// Checks if a namespace & key exists
+    pub fn check_key_exists(&mut self, namespace: &Key, key: &Key) -> Result<bool, Error> {
+        if key.0[MAX_KEY_LENGTH] != b'\0' {
+            return Err(Error::KeyMalformed);
+        }
+        if namespace.0[MAX_KEY_LENGTH] != b'\0' {
+            return Err(Error::NamespaceMalformed);
+        }
+
+        let namespace_index = *self
+            .namespaces
+            .get(namespace)
+            .ok_or(Error::NamespaceNotFound)?;
+
+        Ok(self
+            .load_item(namespace_index, ChunkIndex::Any, key)
+            .is_ok())
+    }
+
     /// Delete a key
     ///
     /// Ignores missing keys or the namespaces
